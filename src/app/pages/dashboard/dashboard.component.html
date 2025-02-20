@@ -1,0 +1,99 @@
+<div class="dashboard-container">
+  <!-- Summary Cards -->
+  <div class="summary-cards">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Balance</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h2 [class.positive]="summary.balance >= 0" [class.negative]="summary.balance < 0">
+          {{ summary.balance | currency }}
+        </h2>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Income</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h2 class="positive">{{ summary.income | currency }}</h2>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Expenses</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h2 class="negative">{{ summary.expenses | currency }}</h2>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="charts-section">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Income Chart</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-container">
+          <canvas #incomeChart></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Expenses Chart</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-container">
+          <canvas #expensesChart></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Recent Transactions -->
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Recent Transactions</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="table-wrapper">
+        <table mat-table [dataSource]="recentTransactions">
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef>Date</th>
+            <td mat-cell *matCellDef="let transaction">{{ transaction.date | date }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Description</th>
+            <td mat-cell *matCellDef="let transaction">{{ transaction.description }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef>Category</th>
+            <td mat-cell *matCellDef="let transaction">{{ transaction.category || 'Uncategorized' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef>Amount</th>
+            <td mat-cell *matCellDef="let transaction" [class.positive]="transaction.type === 'income'"
+              [class.negative]="transaction.type === 'expense'">
+              {{ transaction.amount | currency }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['date', 'description', 'category', 'amount']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['date', 'description', 'category', 'amount'];"></tr>
+        </table>
+      </div>
+
+      <div class="view-all-button">
+        <a mat-button color="primary" routerLink="/transactions">View All Transactions</a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,54 @@
+.not-found-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+
+  mat-card {
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+
+    .content {
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+
+      .error-icon {
+        font-size: 64px;
+        height: 64px;
+        width: 64px;
+        color: #f44336;
+      }
+
+      h1 {
+        font-size: 48px;
+        margin: 0;
+        color: #f44336;
+      }
+
+      h2 {
+        margin: 0;
+        color: #333;
+      }
+
+      p {
+        color: #666;
+        margin: 0;
+      }
+
+      button {
+        margin-top: 20px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .not-found-container {
+    padding: 10px;
+  }
+} 

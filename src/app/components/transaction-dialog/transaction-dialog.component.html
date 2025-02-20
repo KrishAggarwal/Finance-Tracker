@@ -1,0 +1,68 @@
+<h2 mat-dialog-title>{{ dialogTitle }}</h2>
+
+<mat-dialog-content>
+  <form class="py-2" [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="description" placeholder="Enter description">
+        <mat-error *ngIf="transactionForm.get('description')?.hasError('required')">
+          Description is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" formControlName="amount" placeholder="Enter amount">
+        <mat-error *ngIf="transactionForm.get('amount')?.hasError('required')">
+          Amount is required
+        </mat-error>
+        <mat-error *ngIf="transactionForm.get('amount')?.hasError('min')">
+          Amount must be greater than 0
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="transactionForm.get('date')?.hasError('required')">
+          Date is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category">
+          <mat-option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="transactionForm.get('category')?.hasError('required')">
+          Category is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-radio-group formControlName="type" class="w-100">
+        <mat-radio-button value="expense">Expense</mat-radio-button>
+        <mat-radio-button value="income" class="ms-3">Income</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!transactionForm.valid">
+    {{ data.mode === 'add' ? 'Add' : 'Update' }}
+  </button>
+</mat-dialog-actions> 
